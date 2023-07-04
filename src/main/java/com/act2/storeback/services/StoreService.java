@@ -1,5 +1,6 @@
 package com.act2.storeback.services;
 
+
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -29,20 +30,14 @@ public class StoreService {
 
     public Optional<StoreModel> getById(Long id){
 
-        return storeRepository.findById(id);
+        return storeRepository.findById(id);  
 
     }
 
-    public StoreModel updateById(StoreModel request, Long id){
-            StoreModel store = storeRepository.findById(id).get();
 
-            store.setNameStore(request.getNameStore());
-            store.setAdresStore(request.getAdresStore());
-            store.setLat(request.getLat());
-            store.setLon(request.getLon());
 
-            return store;
-    }
+    
+
 
     public Boolean deleteStore (long id){
             try{
@@ -58,6 +53,10 @@ public class StoreService {
 
 
     }
+    
+
+
+
         
     }
 

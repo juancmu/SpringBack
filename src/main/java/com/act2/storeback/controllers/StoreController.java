@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,32 +27,60 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
+     @GetMapping("/hello")
+    public String SayHello(){
+
+        return "Hello Juan, working";
+    }
+
+
+    // busqueda general READ
     @GetMapping
     public ArrayList<StoreModel> getStores(){
 
         return this.storeService.getStores();
     }
 
+    // insertar registro CREATE
     @PostMapping
 
-    public StoreModel saveStore(@RequestBody StoreModel store){
+    public StoreModel saveStore(@Validated @RequestBody StoreModel store){
 
     return this.storeService.saveStore(store);
     
     }
 
+    // busqueda especifica FIND
     @GetMapping(path = "/{id}")
     public Optional<StoreModel> getStoreById(@PathVariable("id") Long id){
 
             return this.storeService.getById(id);
     }
 
-    @PutMapping
-    public StoreModel updateStoreById(@RequestBody StoreModel request, @PathVariable("id") Long id){
+        // actualizar  UPDATE
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> updateStore(@Validated @PathVariable(value= "id") Long id, @RequestBody StoreModel request) {
 
-        return this.storeService.updateById(request, id);
+        Optional<StoreModel> store = storeService.getById(id);
+
+        if(!store.isPresent()) {
+
+            return ResponseEntity.notFound().build();
+
+        } else {
+            store.get().setNameStore(request.getNameStore());
+            store.get().setAdresStore(request.getAdresStore());
+            store.get().setLat(request.getLat());
+            store.get().setLon(request.getLon());
+
+        return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.CREATED).body(storeService.saveStore(store.get()));
+
+        }
+
     }
 
+
+        // borrar DELETE
     @DeleteMapping(path = "/{id}")
     public String deleteById(@PathVariable("id") Long id){
 
@@ -56,14 +88,15 @@ public class StoreController {
         boolean ok = this.storeService.deleteStore(id);
         if (ok){
 
-            return "Tienda con id" + id + "borrada";
+            return "Tienda con id " + id + " borrada";
         } else {
 
-            return "Error, tebnemos unproblem con el id" + id ;
+            return "Error, tebnemos un problema con el id " + id ;
         }
     }
 
 
+    
 
 
 }

@@ -2,48 +2,46 @@ package com.act2.storeback.models;
 
 
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
+
 @Table(name="stores")
 
-public class StoreModel {
+public class StoreModel implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   
-
     @Column
+    @NotBlank
     private String nameStore;
-
-  
 
     @Column
     private String adresStore;
 
-  
-
     @Column
+    @NotBlank
     private Double lat;
 
-
-
     @Column
+    @NotBlank
     private Double lon;
 
 
-    
   //getters ans setters
 
      public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -51,7 +49,7 @@ public class StoreModel {
     }
 
       public String getNameStore() {
-        return this.nameStore;
+        return nameStore;
     }
 
     public void setNameStore(String nameStore) {
@@ -59,23 +57,23 @@ public class StoreModel {
     }
 
       public String getAdresStore() {
-        return this.adresStore;
+        return adresStore;
     }
 
     public void setAdresStore(String adresStore) {
         this.adresStore = adresStore;
     }
 
-        public Double getLat() {
-        return this.lat;
+    public Double getLat() {
+        return lat;
     }
 
     public void setLat(Double lat) {
         this.lat = lat;
     }
 
-       public Double getLon() {
-        return this.lon;
+    public Double getLon() {
+        return lon;
     }
 
     public void setLon(Double lon) {
