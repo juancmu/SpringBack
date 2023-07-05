@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 
@@ -27,14 +29,15 @@ public class StoreModel implements Serializable{
     private String nameStore;
 
     @Column
+    @NotBlank
     private String adresStore;
 
     @Column
-    @NotBlank
+    @NotNull
     private Double lat;
 
     @Column
-    @NotBlank
+    @NotNull
     private Double lon;
 
 
